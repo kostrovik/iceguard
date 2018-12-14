@@ -1,0 +1,83 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'com.github.kostrovik'
+version '1.0-SNAPSHOT'
+def moduleName = 'iceguard'
+
+sourceCompatibility = 10
+targetCompatibility = 10
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.2.0")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.2.0")
+
+    compile files('libs/jackson-annotations-2.9.0.jar')
+    compile files('libs/jackson-core-2.9.6.jar')
+    compile files('libs/jackson-databind-2.9.6.jar')
+    implementation 'com.github.kostrovik:useful-utils:1.1.0'
+    implementation 'com.github.kostrovik:http-client:1.1.0'
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
+
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+
+    afterSuite { desc, result ->
+        if (!desc.parent) {
+            println "\nTest result: ${result.resultType}"
+            println "Test summary: ${result.testCount} tests, " +
+                    "${result.successfulTestCount} succeeded, " +
+                    "${result.failedTestCount} failed, " +
+                    "${result.skippedTestCount} skipped"
+        }
+    }
+}
+
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}
+
+jar {
+    inputs.property("moduleName", moduleName)
+    manifest {
+        attributes(
+                'Automatic-Module-Name': moduleName,
+        )
+    }
+}
+
+compileJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
