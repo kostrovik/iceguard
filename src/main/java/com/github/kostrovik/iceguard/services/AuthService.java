@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
@@ -213,7 +214,7 @@ public class AuthService extends AbstractObservable implements AuthServiceInterf
 
     private synchronized ServerSettingsInterface getServerSettings() {
         if (Objects.isNull(settings)) {
-            settings = InstanceLocatorUtil.getLocator().getFirstLoadedImplementation(ServerSettingsInterface.class).orElse(null);
+            settings = ServiceLoader.load(ModuleLayer.boot(), ServerSettingsInterface.class).findFirst().orElse(null);
         }
         return settings;
     }
