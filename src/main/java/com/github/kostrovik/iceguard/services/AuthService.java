@@ -139,7 +139,7 @@ public class AuthService extends AbstractObservable implements AuthServiceInterf
         synchronized (lock) {
             if (currentUser != null) {
                 currentUser = null;
-                notifyLlisteners("logout");
+                notifyListeners("logout");
             }
         }
     }
@@ -155,7 +155,7 @@ public class AuthService extends AbstractObservable implements AuthServiceInterf
             Token token = converter.fromMap((Map) answer.getDetails());
             currentUser.setToken(token);
         } else {
-            notifyLlisteners(answer);
+            notifyListeners(answer);
         }
     }
 
