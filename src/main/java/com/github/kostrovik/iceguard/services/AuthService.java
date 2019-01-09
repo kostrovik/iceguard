@@ -169,7 +169,13 @@ public class AuthService extends AbstractObservable implements AuthServiceInterf
     @Override
     public void useSavedCredentials() {
         synchronized (lock) {
-            currentUser.setToken(new Token("", preferences.get("token", "")));
+            if (Objects.isNull(currentUser)) {
+                currentUser = new CurrentUser("", "", new Token("", preferences.get("token", "")));
+            } else {
+                currentUser.setToken(new Token("", preferences.get("token", "")));
+            }
+            refreshToken();
+            prepareCurrentUser();
         }
     }
 
