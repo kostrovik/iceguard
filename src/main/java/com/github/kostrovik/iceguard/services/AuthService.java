@@ -7,6 +7,7 @@ import com.github.kostrovik.http.client.common.HttpRequest;
 import com.github.kostrovik.http.client.common.HttpResponse;
 import com.github.kostrovik.iceguard.converters.TokenConverter;
 import com.github.kostrovik.iceguard.converters.UserRoleConverter;
+import com.github.kostrovik.iceguard.dictionaries.AuthEventType;
 import com.github.kostrovik.iceguard.exceptions.HttpRequestException;
 import com.github.kostrovik.iceguard.interfaces.AuthServiceInterface;
 import com.github.kostrovik.iceguard.interfaces.ServerSettingsInterface;
@@ -104,6 +105,7 @@ public class AuthService extends AbstractObservable implements AuthServiceInterf
             UserRoleConverter converter = new UserRoleConverter();
 
             rolesList.forEach(roleMap -> currentUser.addRole(converter.fromMap(roleMap)));
+            notifyListeners(AuthEventType.AUTHENTICATED);
         } else {
             logout();
         }
@@ -139,7 +141,7 @@ public class AuthService extends AbstractObservable implements AuthServiceInterf
         synchronized (lock) {
             if (currentUser != null) {
                 currentUser = null;
-                notifyListeners("logout");
+                notifyListeners(AuthEventType.LOGOUT);
             }
         }
     }
@@ -155,7 +157,7 @@ public class AuthService extends AbstractObservable implements AuthServiceInterf
             Token token = converter.fromMap((Map) answer.getDetails());
             currentUser.setToken(token);
         } else {
-            notifyListeners(answer);
+            notifyListeners(AuthEventType.REFRESH_TOKEN_ERROR);
         }
     }
 

@@ -11,6 +11,7 @@ module com.github.kostrovik.iceguard {
     exports com.github.kostrovik.iceguard.interfaces;
     exports com.github.kostrovik.iceguard.exceptions;
     exports com.github.kostrovik.iceguard.services;
+    exports com.github.kostrovik.iceguard.dictionaries;
 
     uses com.github.kostrovik.useful.interfaces.LoggerConfigInterface;
     uses ServerSettingsInterface;
