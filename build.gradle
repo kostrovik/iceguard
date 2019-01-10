@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.github.kostrovik'
-version '1.0.3'
+version '2.0.0'
 def moduleName = 'iceguard'
 
 sourceCompatibility = 11
@@ -19,14 +19,13 @@ repositories {
 }
 
 dependencies {
-    testCompile("org.junit.jupiter:junit-jupiter-api:5.2.0")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.2.0")
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.3.2")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.3.2")
 
     compile files('libs/jackson-annotations-2.9.0.jar')
     compile files('libs/jackson-core-2.9.6.jar')
     compile files('libs/jackson-databind-2.9.6.jar')
     implementation 'com.github.kostrovik:useful-utils:1.1.1'
-    implementation 'com.github.kostrovik:http-client:1.1.1'
 }
 
 test {

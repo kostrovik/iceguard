@@ -3,8 +3,8 @@ import com.github.kostrovik.iceguard.interfaces.ServerSettingsInterface;
 module com.github.kostrovik.iceguard {
     requires java.prefs;
     requires java.logging;
+    requires java.net.http;
     requires com.github.kostrovik.useful.utils;
-    requires com.github.kostrovik.http.client;
     requires com.fasterxml.jackson.databind;
 
     exports com.github.kostrovik.iceguard.models;

@@ -10,4 +10,5 @@ public enum AuthEventType {
     LOGOUT,
     AUTHENTICATED,
     REFRESH_TOKEN_ERROR,
+    AUTHENTICATION_ERROR
 }
